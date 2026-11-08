@@ -1,14 +1,14 @@
 # Name: Ava Cai
 # Date: 11/9/26
 # Assignment: Project 3
-# Purpose of the program: Train and evaluate functions
+# Purpose of the program: Train and evaluate functions, Train model
 # AI DECLARATION: AI was not used in the creation of this program.
 
 import torch  # main PyTorch library
 import torch.nn as nn  # build and define neural networks (used for the loss function)
 from torch import optim  # optimization algorithms for training
 from tqdm import tqdm  # show progress bars during training loops
-
+from CNN_model import model, train_loader, val_loader # the ResNet-50 model and data loaders from CNN_model.py
 
 def get_device():
     """
@@ -161,3 +161,10 @@ def train_model(model, train_loader, val_loader, num_epochs=30, learning_rate=1e
               f"Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.4f}")
 
     return history
+
+if __name__ == "__main__":
+    # Train the model and save the loss/accuracy for each epoch
+    history = train_model(model, train_loader, val_loader)
+
+    # Save the trained weights and history into the current folder
+    torch.save({'model_state_dict': model.state_dict(), 'history': history}, "model.pth")
