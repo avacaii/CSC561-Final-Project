@@ -1,14 +1,12 @@
-import os  # file and directory paths
-
-from PIL import Image  # load and handle image files
-import matplotlib.pyplot as plt  # plot graphs and visualize training results
-from tqdm import tqdm  # show progress bars during training loops
+# Name: Ava Cai
+# Date: 11/9/26
+# Assignment: Project 3
+# Purpose of the program: Set up CNN model and load dataset
+# AI DECLARATION: AI was not used in the creation of this program.
 
 # PyTorch: open source machine learning framework
-import torch  # main library
-from torch import optim  # optimization algorithms for training
 import torch.nn as nn  # build and define neural networks
-from torch.utils.data import Dataset, DataLoader  # create custom datasets and batch data for training
+from torch.utils.data import DataLoader  # create custom datasets and batch data for training
 
 # torchvision: computer vision tools built on top of PyTorch
 from torchvision import models, transforms  # import pretrained CNN models and image preprocessing
