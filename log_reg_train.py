@@ -1,7 +1,8 @@
 # Name: Ava Cai
 # Date: 11/7/26
 # Assignment: Project 3
-# Purpose of the program: Train a logistic regression baseline on raw BloodMNIST pixels
+# Purpose of the program: Train a logistic regression baseline on dataset pixels
+# AI DECLARATION: AI was not used in the creation of this program.
 
 import json  # save the training history to a file that plot.py can read
 import numpy as np  # shuffle the training data each epoch
@@ -35,9 +36,11 @@ def load(split):
     # ds.imgs is a NumPy array of shape (N, 28, 28, 3)
     # reshape(len(ds.imgs), -1) keeps one row per image and flattens the rest into 2352 columns
     # dividing by 255 scales pixel values from [0, 255] down to [0, 1]
+    # Learned to do this from: https://www.geeksforgeeks.org/python/numpy-reshape-python/
     X = ds.imgs.reshape(len(ds.imgs), -1) / 255.0
 
     # BloodMNIST labels have shape (N, 1), ravel() flattens them to shape (N,) which scikit-learn expects
+    # Learned to do this from: https://www.geeksforgeeks.org/python/numpy-ravel-python/ 
     y = ds.labels.ravel()
 
     return X, y
@@ -57,6 +60,7 @@ def evaluate(clf, X, y):
         - loss (float): The average cross-entropy loss over all samples.
         - accuracy (float): The accuracy of the model (correct predictions / total samples).
     """
+    # Learned this from: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
     probs = clf.predict_proba(X)  # predicted probability of each of the 8 classes, shape (N, 8)
     # labels=range(num_classes) tells log_loss which column belongs to which class
     loss = log_loss(y, probs, labels=range(num_classes))
@@ -94,6 +98,7 @@ def train_log_reg(X_train, y_train, X_val, y_val, num_epochs=30, seed=0):
     # learning_rate="constant" with eta0=1e-4 keeps the step size fixed at 1e-4, the same learning rate as the CNN
     # The default step size schedule takes very large early steps, which made the weights blow up and
     # gave overconfident predictions with a cross-entropy loss above 5
+    # Learned this from: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html
     clf = SGDClassifier(loss="log_loss", learning_rate="constant", eta0=1e-4, random_state=seed)
     rng = np.random.default_rng(seed)  # random number generator used to shuffle the data
 
@@ -106,6 +111,7 @@ def train_log_reg(X_train, y_train, X_val, y_val, num_epochs=30, seed=0):
 
         # one pass of gradient descent over the training data
         # classes must be given because partial_fit() never sees the whole dataset at once
+        # Learned this from: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html
         clf.partial_fit(X_train[order], y_train[order], classes=np.arange(num_classes))
 
         # measure loss and accuracy on the training and validation data after the epoch
@@ -136,6 +142,7 @@ if __name__ == "__main__":
     # Standardize the features so every pixel has mean 0 and standard deviation 1
     # Gradient descent converges much faster when all features are on the same scale
     # The scaler is fit on the training data only so no information from the validation set leaks into training
+    # Learned to to this from: https://scikit-learn.org/stable/api/sklearn.preprocessing.html 
     scaler = StandardScaler().fit(X_train)
     X_train = scaler.transform(X_train)
     X_val = scaler.transform(X_val)
