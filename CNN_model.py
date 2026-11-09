@@ -5,7 +5,9 @@
 # AI DECLARATION: AI was not used in the creation of this program.
 
 # PyTorch: open source machine learning framework
+# Learned to use this from: https://docs.pytorch.org/docs/2.15/nn.html
 import torch.nn as nn  # build and define neural networks
+# Learned to use this from: https://docs.pytorch.org/docs/2.15/utils.html 
 from torch.utils.data import DataLoader  # create custom datasets and batch data for training
 
 # torchvision: computer vision tools built on top of PyTorch
